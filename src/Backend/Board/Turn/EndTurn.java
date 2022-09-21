@@ -1,4 +1,4 @@
-package Turn;
+package Backend.Board.Turn;
 
 public class EndTurn implements TurnState{
     private final Turn turn;
@@ -9,11 +9,11 @@ public class EndTurn implements TurnState{
 
     @Override
     public void observe() {
-        System.out.println("Turn has ended");
+        System.out.println("Backend.Board.Turn has ended");
     }
 
     @Override
     public void onEnterState() {
-        System.out.println("Turn is ending...");
+        System.out.println("Backend.Board.Turn is ending...");
     }
 }

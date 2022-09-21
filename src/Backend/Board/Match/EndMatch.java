@@ -1,4 +1,4 @@
-package Match;
+package Backend.Board.Match;
 
 public class EndMatch implements MatchState {
 
@@ -10,7 +10,7 @@ public class EndMatch implements MatchState {
 
     @Override
     public void observe() {
-        System.out.println("Match ended");
+        System.out.println("Backend.Board.Match ended");
     }
 
     @Override

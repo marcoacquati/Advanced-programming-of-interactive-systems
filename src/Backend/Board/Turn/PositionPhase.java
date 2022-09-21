@@ -1,4 +1,4 @@
-package Turn;
+package Backend.Board.Turn;
 
 public class PositionPhase implements TurnState{
     private final Turn turn;

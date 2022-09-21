@@ -1,5 +1,5 @@
-package Match;
-import Player.*;
+package Backend.Board.Match;
+import Backend.Board.Player.*;
 public class Match{
 
     private MatchState state;

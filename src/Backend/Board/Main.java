@@ -1,5 +1,6 @@
-import Match.Match;
-import Player.Player;
+package Backend.Board;
+
+import Backend.Board.Match.Match;
 
 public class Main {
     public static void main(String[] args){

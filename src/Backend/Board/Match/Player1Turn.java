@@ -1,13 +1,13 @@
-package Match;
+package Backend.Board.Match;
 
-import Turn.Turn;
+import Backend.Board.Turn.Turn;
 
-public class Player2Turn implements MatchState {
+public class Player1Turn implements MatchState {
 
     private final Match match;
     private final Turn turn;
 
-    public Player2Turn(Match match) {
+    public Player1Turn(Match match) {
         this.match = match;
         this.turn = new Turn(match.getPlayingPlayer());
     }
@@ -15,7 +15,7 @@ public class Player2Turn implements MatchState {
     @Override
     public void observe() {
         System.out.println(turn.getPlayingPlayer().getUsername() + " is playing");
-        //HERE WE MANAGE THE TURN OF PLAYER 2
+        //HERE WE MANAGE THE TURN OF PLAYER 1
         turn.observe();
     }
 

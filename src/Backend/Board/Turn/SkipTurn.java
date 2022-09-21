@@ -1,4 +1,4 @@
-package Turn;
+package Backend.Board.Turn;
 
 public class SkipTurn implements TurnState{
     private final Turn turn;
@@ -9,7 +9,7 @@ public class SkipTurn implements TurnState{
 
     @Override
     public void observe() {
-        System.out.println("Turn has been skipped");
+        System.out.println("Backend.Board.Turn has been skipped");
     }
 
     @Override

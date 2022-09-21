@@ -1,6 +1,6 @@
-package Turn;
+package Backend.Board.Turn;
 
-import Player.Player;
+import Backend.Board.Player.Player;
 
 public class Turn {
 

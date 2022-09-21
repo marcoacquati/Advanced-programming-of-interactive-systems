@@ -1,4 +1,4 @@
-package Match;
+package Backend.Board.Match;
 
 public class StartMatch implements MatchState {
 
@@ -10,11 +10,11 @@ public class StartMatch implements MatchState {
 
     @Override
     public void observe() {
-        System.out.println("Match has started");
+        System.out.println("Backend.Board.Match has started");
     }
 
     @Override
     public void onEnterState() {
-        System.out.println("Match is starting...");
+        System.out.println("Backend.Board.Match is starting...");
     }
 }

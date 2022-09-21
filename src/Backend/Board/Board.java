@@ -1,4 +1,4 @@
-package Board;
+package Backend.Board;
 
 import javax.swing.*;
 

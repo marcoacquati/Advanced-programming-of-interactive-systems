@@ -1,4 +1,4 @@
-package Card;
+package Backend.Board.Card;
 
 public class Card{
     enum Position{

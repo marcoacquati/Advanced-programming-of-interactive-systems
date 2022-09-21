@@ -1,6 +1,6 @@
-package Player;
+package Backend.Board.Player;
 
-import Card.Card;
+import Backend.Board.Card.Card;
 
 import java.util.ArrayList;
 

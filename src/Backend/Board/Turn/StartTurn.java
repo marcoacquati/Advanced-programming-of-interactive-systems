@@ -1,4 +1,4 @@
-package Turn;
+package Backend.Board.Turn;
 
 public class StartTurn implements TurnState{
     private final Turn turn;
@@ -9,11 +9,11 @@ public class StartTurn implements TurnState{
 
     @Override
     public void observe() {
-        System.out.println("Turn has started");
+        System.out.println("Backend.Board.Turn has started");
     }
 
     @Override
     public void onEnterState() {
-        System.out.println("Turn is starting...");
+        System.out.println("Backend.Board.Turn is starting...");
     }
 }

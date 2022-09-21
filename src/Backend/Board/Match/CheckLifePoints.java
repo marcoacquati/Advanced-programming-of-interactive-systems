@@ -1,4 +1,4 @@
-package Match;
+package Backend.Board.Match;
 
 public class CheckLifePoints implements MatchState {
 
