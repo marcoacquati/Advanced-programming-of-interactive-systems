@@ -9,9 +9,20 @@ import java.io.IOException;
 
 public class Board extends JPanel {
     BufferedImage image;
+    SpringLayout layout = new SpringLayout();
+
     public Board(BufferedImage image) throws IOException {
         this.image = image;
-        this.setLayout(new SpringLayout());
+        this.setLayout(layout);
+    }
+
+    @Override
+    public SpringLayout getLayout() {
+        return layout;
+    }
+
+    public void setLayout(SpringLayout layout) {
+        this.layout = layout;
     }
 
     @Override

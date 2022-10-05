@@ -16,7 +16,7 @@ public class Card extends JComponent {
         this.model = new CardModel();
         this.ui = new CardUI(this);
         this.getModel().setImagePath(imagePath);
-        this.image = ImageIO.read(getClass().getClassLoader().getResourceAsStream(imagePath));
+        this.image = ImageIO.read(getClass().getClassLoader().getResourceAsStream(imagePath)).getScaledInstance(100, 146, Image.SCALE_SMOOTH);
     }
     public CardModel getModel() {
         return model;
