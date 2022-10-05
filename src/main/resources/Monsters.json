@@ -1,0 +1,242 @@
+[
+ {
+   "Type": "Monster",
+   "Name": "Blue-Eyes White Dragon",
+   "Description": "This legendary dragon is a powerful engine of destruction. Virtually invincible very few have faced this awesome creature and lived to tell the tale.",
+   "Attack": 3000,
+   "Defense": 2500,
+   "Stars": 8
+ },
+ {
+   "Type": "Monster",
+   "Name": "Cosmo Queen",
+   "Description": "Queen of the galaxies and mistress of the stars.",
+   "Attack": 2900,
+   "Defense": 2450,
+   "Stars": 8
+ },
+ {
+   "Type": "Monster",
+   "Name": "Dark Magician",
+   "Description": "The ultimate wizard in terms of attack and defense.",
+   "Attack": 2500,
+   "Defense": 2200,
+   "Stars": 7
+ },
+ {
+   "Type": "Monster",
+   "Name": "Fence Guard",
+   "Description": "It is he who keep a close watch to keep the evil intruders away.",
+   "Attack": 2500,
+   "Defense": 2200,
+   "Stars": 7
+ },
+ {
+   "Type": "Monster",
+   "Name": "Red-Eyes Black Dragon",
+   "Description": "A ferocious dragon with a deadly attack.",
+   "Attack": 2400,
+   "Defense": 2000,
+   "Stars": 7
+ },
+ {
+   "Type": "Monster",
+   "Name": "Gaia The Fierce Knight",
+   "Description": "A knight whose horse travels faster than the wind. His battle-charge is a force to be reckoned with.",
+   "Attack": 2300,
+   "Defense": 2100,
+   "Stars": 7
+ },
+ {
+   "Type": "Monster",
+   "Name": "Summoned Skull",
+   "Description": "A fiend with dark powers for confusing the enemy. Among the Fiend-Type monsters this monster boasts considerable force.\"",
+   "Attack": 2500,
+   "Defense": 1200,
+   "Stars": 6
+ },
+ {
+   "Type": "Monster",
+   "Name": "Fence Guard Magician",
+   "Description": "A magician girl who uses her magic to protect fence guards.",
+   "Attack": 2000,
+   "Defense": 1700,
+   "Stars": 6
+ },
+ {
+   "Type": "Monster",
+   "Name": "Dark Magician Girl",
+   "Description": "Gains her skill by learning from her master the Dark Magician\"",
+   "Attack": 2000,
+   "Defense": 1700,
+   "Stars": 6
+ },
+ {
+   "Type": "Monster",
+   "Name": "Curse Of Dragon",
+   "Description": "A wicked dragon that taps into dark forces to execute a powerful attack.",
+   "Attack": 2000,
+   "Defense": 1500,
+   "Stars": 5
+ },
+ {
+   "Type": "Monster",
+   "Name": "Fence Guard Dragon",
+   "Description": "A fierce creature unleashed on those who threatens the peace of the innocents.",
+   "Attack": 1900,
+   "Defense": 1900,
+   "Stars": 5
+ },
+ {
+   "Type": "Monster",
+   "Name": "Alexandrite Dragon",
+   "Description": "Many of the czars' lost jewels can be found in the scales of this priceless dragon. Its creator remains a mystery along with how they acquired the imperial treasures. But whosoever finds this dragon has hit the jackpot... whether they know it or not.\"",
+   "Attack": 2000,
+   "Defense": 100,
+   "Stars": 4
+ },
+ {
+   "Type": "Monster",
+   "Name": "Vorse Raider",
+   "Description": "This wicked Beast-Warrior does every horrid thing imaginable and loves it! His axe bears the marks of his countless victims.",
+   "Attack": 1900,
+   "Defense": 1200,
+   "Stars": 4
+ },
+ {
+   "Type": "Monster",
+   "Name": "Gemini Elf",
+   "Description": "Elf twins that alternate their attacks.",
+   "Attack": 1900,
+   "Defense": 900,
+   "Stars": 4
+ },
+ {
+   "Type": "Monster",
+   "Name": "Fence Guard Apprentice",
+   "Description": "Trains very hard to be the future Fence Guard",
+   "Attack": 1700,
+   "Defense": 1300,
+   "Stars": 4
+ },
+ {
+   "Type": "Monster",
+   "Name": "Beta The Magnet Warrior",
+   "Description": "When the three magnet warriors are combined they make an unstoppable force.",
+   "Attack": 1700,
+   "Defense": 1000,
+   "Stars": 4
+ },
+ {
+   "Type": "Monster",
+   "Name": "Alligator Sword",
+   "Description": "dis mighty lissard man can swing his sword so fast dat it's more dan da speed a sound!",
+   "Attack": 1500,
+   "Defense": 1200,
+   "Stars": 4
+ },
+ {
+   "Type": "Monster",
+   "Name": "Gamma The Magnet Warrior",
+   "Description": "When the three magnet warriors are combined they make an unstoppable force.",
+   "Attack": 1500,
+   "Defense": 1800,
+   "Stars": 4
+ },
+ {
+   "Type": "Monster",
+   "Name": "Celtic Guardian",
+   "Description": "An elf who learned to wield a sword he baffles enemies with lightning-swift attacks.",
+   "Attack": 1400,
+   "Defense": 1200,
+   "Stars": 4
+ },
+ {
+   "Type": "Monster",
+   "Name": "Alpha The Magnet Warrior",
+   "Description": "When the three magnet warriors are combined they make an unstoppable force.",
+   "Attack": 1400,
+   "Defense": 1700,
+   "Stars": 4
+ },
+ {
+   "Type": "Monster",
+   "Name": "Harpie Lady",
+   "Description": "This human-shaped animal with wings is beautiful to watch but deadly in battle.",
+   "Attack": 1300,
+   "Defense": 1400,
+   "Stars": 4
+ },
+ {
+   "Type": "Monster",
+   "Name": "Big Shield Gardna",
+   "Description": "A perfect choice when defense is your only option.",
+   "Attack": 100,
+   "Defense": 2600,
+   "Stars": 4
+ },
+ {
+   "Type": "Monster",
+   "Name": "Witty Phantom",
+   "Description": "Dressed in a night-black tuxedo this creature presides over thedarkness.",
+   "Attack": 1400,
+   "Defense": 1300,
+   "Stars": 3
+ },
+ {
+   "Type": "Monster",
+   "Name": "Baby Dragon",
+   "Description": "Much more than just a child this dragon is gifted with untapped power.",
+   "Attack": 1200,
+   "Defense": 700,
+   "Stars": 3
+ },
+ {
+   "Type": "Monster",
+   "Name": "Cyber Jar",
+   "Description": "This monster from outer space might pack unusual surprises.",
+   "Attack": 900,
+   "Defense": 900,
+   "Stars": 3
+ },
+ {
+   "Type": "Monster",
+   "Name": "Clown Zombie",
+   "Description": "A clown revived by the powers of darkness. Its deadly dance has sent many monsters to their graves.",
+   "Attack": 1350,
+   "Defense": 0,
+   "Stars": 2
+ },
+ {
+   "Type": "Monster",
+   "Name": "Time Wizard",
+   "Description": "Controls the flow of time to alter the outcome of the duel.",
+   "Attack": 500,
+   "Defense": 400,
+   "Stars": 2
+ },
+ {
+   "Type": "Monster",
+   "Name": "Man-Eater Bug",
+   "Description": "A bug with the ability to devour humans.",
+   "Attack": 450,
+   "Defense": 600,
+   "Stars": 2
+ },
+ {
+   "Type": "Monster",
+   "Name": "Kuriboh",
+   "Description": "Even though it doesn't seem like much Kuriboh will always be there when needed the most.",
+   "Attack": 300,
+   "Defense": 200,
+   "Stars": 1
+ },
+ {
+   "Type": "Monster",
+   "Name": "Mokey Mokey",
+   "Description": "An outcast angel. Nobody knows what he is thinking at all. Sometimes he gets mad and that is dreadful.",
+   "Attack": 300,
+   "Defense": 100,
+   "Stars": 1
+ }
+]
