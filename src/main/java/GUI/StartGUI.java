@@ -1,3 +1,4 @@
+package GUI;
 
 public class StartGUI {
     public static void main(String args[]) {

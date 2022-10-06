@@ -1,3 +1,4 @@
+package GUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +20,7 @@ public class MainGUI extends JFrame {
     }
 
     public void setupUI() {
-        this.setPreferredSize(new Dimension(1200,1000));
+        this.setPreferredSize(new Dimension(1280, 720));
         setTitle("Yu-Gi-Oh!");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
