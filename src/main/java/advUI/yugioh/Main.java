@@ -1,9 +1,8 @@
 package advUI.yugioh;
 
-import advUI.yugioh.match.Match;
+import advUI.yugioh.match.MatchController;
 import org.json.simple.parser.ParseException;
 
-import javax.imageio.ImageIO;
 import java.io.IOException;
 
 public class Main {

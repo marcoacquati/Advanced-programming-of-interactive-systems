@@ -1,7 +1,7 @@
 package advUI.yugioh.Card;
 
 public class CardModel {
-    enum Position{
+    public enum Position{
         hand, attack, covered_defense, uncovered_defense;
         private static final Position[] positions = Position.values();
         private static Position getPosition(int i){
@@ -14,6 +14,7 @@ public class CardModel {
     private int def;
     private String name;
     private String imagePath;
+    private boolean isHighlighted;
 
     public int getAtk(){
         return this.atk;
@@ -47,5 +48,13 @@ public class CardModel {
     }
     public void setImagePath(String path){
         this.imagePath = path;
+    }
+
+    public boolean isHighlighted() {
+        return isHighlighted;
+    }
+
+    public void setHighlighted(boolean highlighted) {
+        isHighlighted = highlighted;
     }
 }

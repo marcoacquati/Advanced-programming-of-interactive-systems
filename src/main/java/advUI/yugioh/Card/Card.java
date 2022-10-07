@@ -79,6 +79,14 @@ public class Card extends JComponent {
         this.image = image;
     }
 
+    public boolean isHighlighted() {
+        return model.isHighlighted();
+    }
+
+    public void setHighlighted(boolean highlighted) {
+        model.setHighlighted(highlighted);
+    }
+
     @Override
     public void paintComponent(Graphics pen) {
         super.paintComponent(pen);

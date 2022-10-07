@@ -8,6 +8,7 @@ import java.io.IOException;
 public class CardUI {
 
     public CardUI(Card card) {
+        /*
         card.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -33,10 +34,15 @@ public class CardUI {
                 card.repaint();
             }
         });
+
+         */
     }
 
     public void paint(Graphics2D pen, Card card) throws IOException {
         pen.drawImage(card.getImage(), null, null);
+        if(card.isHighlighted()){
+            pen.drawRect(card.getX(), card.getY(), 100, 146);
+        }
     }
 
 }

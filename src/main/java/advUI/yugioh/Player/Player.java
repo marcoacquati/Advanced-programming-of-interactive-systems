@@ -1,5 +1,6 @@
 package advUI.yugioh.Player;
 import advUI.yugioh.Card.Card;
+import advUI.yugioh.Card.CardModel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -21,6 +22,7 @@ public class Player {
 
     private ArrayList<Card> deck = new ArrayList<>();
     private ArrayList<Card> hand = new ArrayList<>();
+    private ArrayList<Card> board = new ArrayList<>();
 
     public Player(String username) throws IOException, ParseException, ParseException {
         this.username = username;
@@ -63,6 +65,14 @@ public class Player {
         return hand;
     }
 
+    public ArrayList<Card> getBoard() {
+        return board;
+    }
+
+    public void setBoard(ArrayList<Card> board) {
+        this.board = board;
+    }
+
     public void initializeDeck() throws IOException {
         for(Object o : cardArray){
             JSONObject card = (JSONObject) o;
@@ -78,8 +88,16 @@ public class Player {
     public void initializeHand(){
         for(int i=0; i<7; i++){
             int random = new Random().nextInt(deck.size());
-            hand.add(deck.get(random));
-            deck.remove(random);
+            this.deck.get(random).setPosition(CardModel.Position.hand);
+            this.hand.add(deck.get(random));
+            this.deck.remove(random);
         }
+    }
+
+    public Card drawCard(){
+        Card card = this.deck.get(deck.size()-1);
+        this.hand.add(card);
+        this.deck.remove(card);
+        return card;
     }
 }
