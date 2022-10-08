@@ -55,6 +55,8 @@ public class MatchController extends JPanel {
                     });
                     displayPlayingPlayer();
                     matchModel.setState(State.Position);
+                }else{
+                    JOptionPane.showConfirmDialog(null, "You are not in the drawing phase");
                 }
             }
         });
@@ -160,7 +162,7 @@ public class MatchController extends JPanel {
                 @Override
                 public void mouseReleased(MouseEvent e) {
                     super.mouseReleased(e);
-                    if(matchModel.getState().equals(State.Attack)){
+                    if(matchModel.getState().equals(State.Attack) && selectedCard != null && selectedCard.getPosition().equals(CardModel.Position.attack)){
                         deHilightEnemies();
                         //TODO MANAGE CARD ATTACKS
                     }
@@ -213,16 +215,24 @@ public class MatchController extends JPanel {
                 @Override
                 public void mouseReleased(MouseEvent e) {
                     super.mouseReleased(e);
-                    if(matchModel.getState().equals(State.Position) && selectedCard!=null){
+                    if(matchModel.getState().equals(State.Position) && selectedCard!=null && selectedCard.getPosition().equals(CardModel.Position.hand)){
                         matchModel.getPlayingPlayer().getHand().remove(selectedCard);
-                        //TODO Manage Card position
+                        String[] options = {"Attack", "Defense", "Covered defense"};
+                        int choice = JOptionPane.showOptionDialog(null, "Select how you want to position your card", "Card positon", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);System.out.println("I'm here");
+                        switch (choice){
+                            case 1:
+                                selectedCard.setPosition(CardModel.Position.attack);
+                            case 2:
+                                selectedCard.setPosition(CardModel.Position.uncovered_defense);
+                            case 3:
+                                selectedCard.setPosition(CardModel.Position.covered_defense);
+                        }
                         matchModel.getPlayingPlayer().getBoard().add(selectedCard);
                         boardContainerPanel.remove(placeholder);
                         selectedCard = null;
                         displayPlayingPlayer();
                         dehilightBoard();
                         revalidate();
-                        System.out.println("QUI");
                         repaint();
                     }
                 }

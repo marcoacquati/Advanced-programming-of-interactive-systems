@@ -97,6 +97,7 @@ public class Player {
     public Card drawCard(){
         Card card = this.deck.get(deck.size()-1);
         this.hand.add(card);
+        card.setPosition(CardModel.Position.hand);
         this.deck.remove(card);
         return card;
     }
