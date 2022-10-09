@@ -16,7 +16,7 @@ public class MatchModel {
         this.currentState = State.Draw;
         this.player1.initializeDeck();
         this.player2.initializeDeck();
-        this.playingPlayer = this.player2;
+        this.playingPlayer = this.player1;
     }
 
     public Player getPlayingPlayer(){

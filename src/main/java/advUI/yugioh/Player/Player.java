@@ -101,4 +101,8 @@ public class Player {
         this.deck.remove(card);
         return card;
     }
+
+    public void removeLifePoints(int damage){
+        this.lifePoints = this.lifePoints - damage;
+    }
 }
