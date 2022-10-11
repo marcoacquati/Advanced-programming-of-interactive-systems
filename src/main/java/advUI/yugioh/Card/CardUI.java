@@ -1,10 +1,16 @@
 package advUI.yugioh.Card;
 
 import javax.imageio.ImageIO;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
 public class CardUI implements PositionListener{
@@ -38,11 +44,12 @@ public class CardUI implements PositionListener{
             }
         });
 
+
          */
     }
 
     public void paint(Graphics2D pen, Card card) throws IOException {
-        if(card.getPosition().equals(CardModel.Position.attack) || card.getPosition().equals(CardModel.Position.hand)){
+        if(card.getPosition().equals(CardModel.Position.attack) || card.getPosition().equals(CardModel.Position.hand)|| card.getPosition().equals(CardModel.Position.deck)){
             card.setPreferredSize(new Dimension(100,146));
             card.repaint();
             card.revalidate();
@@ -52,7 +59,7 @@ public class CardUI implements PositionListener{
             card.repaint();
             card.revalidate();
             pen.drawImage(covered_defense_img, null, null);
-        }else{
+        }else if(card.getPosition().equals(CardModel.Position.uncovered_defense)){
             //BufferedImage dest = new BufferedImage(146, 100, card.getImage().getType());
             card.setPreferredSize(new Dimension(146,100));
             pen.translate((146 - 100) / 2, (146 - 100) / 2);
@@ -65,13 +72,13 @@ public class CardUI implements PositionListener{
 
         if(card.isHighlighted()){
             pen.setColor(Color.YELLOW);
-            pen.setStroke(new BasicStroke(10));
-            pen.drawRect(card.getX(), card.getY(), 100, 146);
+            ((Graphics2D) pen).setStroke(new BasicStroke(10));
+            pen.drawRect(0,0, 100, 146);
         }
     }
 
     @Override
     public void positionChanged() {
-        System.out.println("SONO QUI");
+
     }
 }

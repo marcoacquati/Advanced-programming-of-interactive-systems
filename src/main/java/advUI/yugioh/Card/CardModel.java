@@ -15,6 +15,7 @@ public class CardModel {
     private String name;
     private String imagePath;
     private boolean isHighlighted;
+    private boolean canAttack;
 
     public int getAtk(){
         return this.atk;
@@ -56,5 +57,13 @@ public class CardModel {
 
     public void setHighlighted(boolean highlighted) {
         isHighlighted = highlighted;
+    }
+
+    public boolean isCanAttack() {
+        return canAttack;
+    }
+
+    public void setCanAttack(boolean canAttack) {
+        this.canAttack = canAttack;
     }
 }

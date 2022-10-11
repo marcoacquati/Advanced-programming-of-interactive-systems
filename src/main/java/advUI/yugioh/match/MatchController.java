@@ -4,6 +4,7 @@ import advUI.yugioh.BoardPanel;
 import advUI.yugioh.Card.Card;
 import advUI.yugioh.Card.CardModel;
 import advUI.yugioh.Card.PositionListener;
+import advUI.yugioh.EndMatchPanel;
 import advUI.yugioh.Placeholder;
 import advUI.yugioh.Player.Player;
 import advUI.yugioh.State;
@@ -23,6 +24,8 @@ public class MatchController extends JPanel {
     private JPanel boardContainerPanel = new JPanel(new FlowLayout());
     private JPanel enemyContainerPanel = new JPanel(new FlowLayout());
     private Card selectedCard;
+
+    Card deck = new Card("CardImages/Card Back.png");
     private ArrayList<PositionListener> listeners = new ArrayList<PositionListener>();
     private Card attackingCard;
     private final MatchModel matchModel;
@@ -48,8 +51,15 @@ public class MatchController extends JPanel {
         this.ui.paint(this);
     }
 
-    public void displayPlayingPlayer(){
+    public void displayPlayingPlayer() throws IOException {
         boardContainerPanel.removeAll();
+        enemyContainerPanel.removeAll();
+        if(matchModel.getState().equals(State.Draw)){
+            deck.setHighlighted(true);
+        }else{
+            deck.setHighlighted(false);
+        }
+
         for(Component o : handContainerPanel.getComponents()){
             if(o.getClass().equals(Card.class)){
                 handContainerPanel.remove(o);
@@ -59,6 +69,9 @@ public class MatchController extends JPanel {
             Card castedCard = (Card)card;
             handContainerPanel.add(castedCard);
         }
+
+        System.out.println("Siamo nello stato " + matchModel.getState() + " e il deck è highlighted = " + deck.isHighlighted());
+        handContainerPanel.add(deck);
 
         for(Object card: matchModel.getPlayingPlayer().getBoard()){
             Card castedCard = (Card)card;
@@ -97,7 +110,11 @@ public class MatchController extends JPanel {
                         }
                         boardContainerPanel.remove(placeholder);
                         selectedCard = null;
-                        displayPlayingPlayer();
+                        try {
+                            displayPlayingPlayer();
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
                         dehilightBoard();
                         revalidate();
                         repaint();
@@ -123,45 +140,20 @@ public class MatchController extends JPanel {
     }
 
     public void setupButtons(){
-        JButton drawButton = new JButton("Draw card");
-        drawButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                if(matchModel.getState().equals(State.Draw)){
-                    Card card = getMatchModel().getPlayingPlayer().drawCard();
-                    card.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mousePressed(MouseEvent e) {
-                            super.mousePressed(e);
-                            if(matchModel.getState().equals(State.Position)){
-                                if(matchModel.getPlayer2().getBoard().size()<5) {
-                                    selectedCard = card;
-                                    hilightBoard();
-                                    repaint();
-                                    revalidate();
-                                }
-                            }
-                        }
-                    });
-                    displayPlayingPlayer();
-                    matchModel.setState(State.Position);
-                }else{
-                    JOptionPane.showMessageDialog(null, "You are not in the drawing phase");
-                }
-            }
-        });
-        this.add(drawButton);
-
         JButton attackButton = new JButton("Attack");
         this.add(attackButton);
         attackButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if(matchModel.getState().equals(State.Position)){
+                if(matchModel.getState().equals(State.Position) && !matchModel.getPlayingPlayer().getBoard().isEmpty()){
                     matchModel.setState(State.Attack);
                     System.out.println("Attack phase");
+                }else if(matchModel.getState().equals(State.Draw)){
+                    JOptionPane.showMessageDialog(null, "You must draw before attacking");
+                }
+                else if(matchModel.getPlayingPlayer().getBoard().isEmpty()){
+                    JOptionPane.showMessageDialog(null, "You must have at least one monster on your board to attack");
                 }
             }
         });
@@ -178,12 +170,16 @@ public class MatchController extends JPanel {
                     selectedCard = null;
                     matchModel.setState(State.Draw);
                     matchModel.changePlayingPlayer();
-                    displayPlayingPlayer();
+                    resetAttackingCards();
+                    try {
+                        displayPlayingPlayer();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
                     revalidate();
                     repaint();
                 }else{
                     JOptionPane.showMessageDialog(null, "You must draw before ending your turn");
-
                 }
             }
         });
@@ -203,7 +199,7 @@ public class MatchController extends JPanel {
                             repaint();
                             revalidate();
                         }else{
-                            JOptionPane.showConfirmDialog(null, "You have already positioned 5 cards");
+                            JOptionPane.showMessageDialog(null, "You have already positioned 5 cards");
                         }
                     }
                 }
@@ -228,7 +224,38 @@ public class MatchController extends JPanel {
                 }
             });
         }
-
+        //DECK CLICK LISTENER
+        deck.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if(matchModel.getState().equals(State.Draw)){
+                    Card card = getMatchModel().getPlayingPlayer().drawCard();
+                    card.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mousePressed(MouseEvent e) {
+                            super.mousePressed(e);
+                            if(matchModel.getState().equals(State.Position)){
+                                if(matchModel.getPlayer2().getBoard().size()<5) {
+                                    selectedCard = card;
+                                    hilightBoard();
+                                    repaint();
+                                    revalidate();
+                                }
+                            }
+                        }
+                    });
+                    try {
+                        displayPlayingPlayer();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    matchModel.setState(State.Position);
+                }else{
+                    JOptionPane.showMessageDialog(null, "You can't draw more than once");
+                }
+            }
+        });
     }
 
     public void setupUI(){
@@ -294,55 +321,111 @@ public class MatchController extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
-                if(matchModel.getState().equals(State.Attack) && card.getPosition().equals(CardModel.Position.attack) && isCardInBoard(card)){
-                    attackingCard = card;
-                    System.out.println("Attacking card: "+attackingCard.getName());
-                    System.out.println("Attacking card: "+attackingCard.getSize());
-                    hilightEnemies();
+                //TODO Manage card position change
+                if(card.isCanAttack()) {
+                    if (matchModel.getState().equals(State.Attack) && card.getPosition().equals(CardModel.Position.attack) && isCardInBoard(card)) {
+                        attackingCard = card;
+                        System.out.println("Attacking card: " + attackingCard.getName());
+                        System.out.println("Attacking card: " + attackingCard.getSize());
+                        hilightEnemies();
+                    }
+                    if (enemyContainerPanel.getComponents().length == 0) {
+                        JLabel directAttackLabel = new JLabel("Direct Attack");
+                        directAttackLabel.setFont (directAttackLabel.getFont().deriveFont(64.0f));
+                        directAttackLabel.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2));
+                        setupAttackedListener(directAttackLabel);
+                        enemyContainerPanel.add(directAttackLabel);
+                    }
                     repaint();
                     revalidate();
+                }else{
+                    JOptionPane.showMessageDialog(null, "You can attack at most once with a single monster");
                 }
             }
         });
     }
 
-    private void setupAttackedListener(Card card){
-        card.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                //TODO CARD ATTACKS
-                if(matchModel.getState().equals(State.Attack) && attackingCard != null && attackingCard.getPosition().equals(CardModel.Position.attack) && isCardInEnemy(card)){
-                    deHilightEnemies();
-                    if(card.getPosition().equals(CardModel.Position.attack)){
-                        System.out.print(attackingCard.getName() +  " is attacking " + card.getName());
-                        if(attackingCard.getAtk()>=card.getAtk()){
-                            matchModel.getNotPlayingPlayer().getBoard().remove(card);
-                            enemyContainerPanel.remove(card);
-                            matchModel.getNotPlayingPlayer().removeLifePoints(attackingCard.getAtk()-card.getAtk());
-                            attackingCard = null;
-                            displayPlayingPlayer();
-                            System.out.println(matchModel.getNotPlayingPlayer().getUsername() + " now has " + matchModel.getNotPlayingPlayer().getLifePoints() + " Life Points");
-                        }
-                    }else{
-                        System.out.print(attackingCard.getName() +  " is attacking " + card.getName());
-                        if(attackingCard.getAtk()>=card.getDef()){
-                            matchModel.getNotPlayingPlayer().getBoard().remove(card);
-                            enemyContainerPanel.remove(card);
-                            attackingCard = null;
-                            System.out.println(matchModel.getNotPlayingPlayer().getUsername() + " now has " + matchModel.getNotPlayingPlayer().getLifePoints() + " Life Points");
+    private void setupAttackedListener(Component component){
+        if(component.getClass().equals(Card.class)){
+            Card card = (Card) component;
+            card.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    super.mouseClicked(e);
+                    //TODO CARD ATTACKS
+                    if(matchModel.getState().equals(State.Attack) && attackingCard != null && attackingCard.getPosition().equals(CardModel.Position.attack) && isCardInEnemy(card)){
+                        deHilightEnemies();
+                        if(card.getPosition().equals(CardModel.Position.attack)){
+                            System.out.print(attackingCard.getName() +  " is attacking " + card.getName());
+                            if(attackingCard.getAtk()>=card.getAtk()){
+                                matchModel.getNotPlayingPlayer().getBoard().remove(card);
+                                enemyContainerPanel.remove(card);
+                                matchModel.getNotPlayingPlayer().removeLifePoints(attackingCard.getAtk()-card.getAtk());
+                                try {
+                                    displayPlayingPlayer();
+                                } catch (IOException ex) {
+                                    throw new RuntimeException(ex);
+                                }
+                                System.out.println(matchModel.getNotPlayingPlayer().getUsername() + " now has " + matchModel.getNotPlayingPlayer().getLifePoints() + " Life Points");
+                            }
                         }else{
-                            matchModel.getPlayingPlayer().getBoard().remove(attackingCard);
-                            boardContainerPanel.remove(attackingCard);
-                            attackingCard = null;
-                            matchModel.getPlayingPlayer().removeLifePoints(card.getDef()-attackingCard.getAtk());
-                            System.out.println(matchModel.getNotPlayingPlayer().getUsername() + " now has " + matchModel.getNotPlayingPlayer().getLifePoints() + " Life Points");
+                            System.out.print(attackingCard.getName() +  " is attacking " + card.getName());
+
+                            if(attackingCard.getAtk()>=card.getDef()){
+                                matchModel.getNotPlayingPlayer().getBoard().remove(card);
+                                enemyContainerPanel.remove(card);
+                                System.out.println(matchModel.getNotPlayingPlayer().getUsername() + " now has " + matchModel.getNotPlayingPlayer().getLifePoints() + " Life Points");
+                            }else{
+                                matchModel.getPlayingPlayer().getBoard().remove(attackingCard);
+                                boardContainerPanel.remove(attackingCard);
+                                matchModel.getPlayingPlayer().removeLifePoints(card.getDef()-attackingCard.getAtk());
+                                System.out.println(matchModel.getNotPlayingPlayer().getUsername() + " now has " + matchModel.getNotPlayingPlayer().getLifePoints() + " Life Points");
+                            }
+                            JOptionPane.showMessageDialog(null, attackingCard.getImage() + " is attacking " + card.getImage());
                         }
-                        displayPlayingPlayer();
+                        attackingCard.setCanAttack(false);
+                        attackingCard = null;
+                        try {
+                            displayPlayingPlayer();
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        try {
+                            checkLifePoints();
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
+        if(component.getClass().equals(JLabel.class)){
+            component.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    super.mouseClicked(e);
+                    //TODO CARD ATTACKS
+                    if(matchModel.getState().equals(State.Attack) && attackingCard != null && attackingCard.getPosition().equals(CardModel.Position.attack)){
+                        deHilightEnemies();
+                        matchModel.getNotPlayingPlayer().removeLifePoints(attackingCard.getAtk());
+                        System.out.print(attackingCard.getName() +  " is attacking directly");
+                        attackingCard.setCanAttack(false);
+                        attackingCard = null;
+                        try {
+                            displayPlayingPlayer();
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        try {
+                            checkLifePoints();
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+                }
+            });
+        }
+
     }
 
     public boolean isCardInHand(Card card){
@@ -358,5 +441,26 @@ public class MatchController extends JPanel {
     public void addListener(PositionListener listener) {
         listeners.add(listener);
     }
+    public void checkLifePoints() throws IOException {
+        if(matchModel.getPlayer1().getLifePoints() <= 0){
+            this.remove(this.boardPanel);
+            this.add(new EndMatchPanel(matchModel.getPlayer2()));
+        }else if(matchModel.getPlayer2().getLifePoints()<=0){
+            this.remove(this.boardPanel);
+            this.add(new EndMatchPanel(matchModel.getPlayer1()));
+        }
+    }
+
+    public void resetAttackingCards(){
+        for(Card card : matchModel.getPlayingPlayer().getBoard()){
+            card.setCanAttack(true);
+        }
+    }
+
+    public void endMatch() throws IOException {
+
+
+    }
+
 
 }

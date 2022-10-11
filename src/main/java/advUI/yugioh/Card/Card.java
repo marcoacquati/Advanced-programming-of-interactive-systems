@@ -18,6 +18,7 @@ public class Card extends JComponent {
         this.image = ImageIO.read(getClass().getClassLoader().getResourceAsStream(imagePath)).getScaledInstance(100, 146, Image.SCALE_SMOOTH);
         this.setPosition(CardModel.Position.deck);
         this.ui = new CardUI(this);
+        this.setCanAttack(true);
     }
 
     public CardModel getModel() {
@@ -87,6 +88,14 @@ public class Card extends JComponent {
 
     public void setHighlighted(boolean highlighted) {
         model.setHighlighted(highlighted);
+    }
+
+    public boolean isCanAttack() {
+        return model.isCanAttack();
+    }
+
+    public void setCanAttack(boolean canAttack) {
+        this.model.setCanAttack(canAttack);
     }
 
     @Override
