@@ -20,7 +20,7 @@ public class GetUserNamePanel extends JPanel {
         this.setLayout(layout);
 
         setPreferredSize(new Dimension(300, 300));
-        JLabel enterNameLabel = new JLabel("Please enter your user name:");
+        JLabel enterNameLabel = new JLabel("Please enter your username:");
         JTextField enterNameField = new JTextField(10);
         JButton confirmButton = new JButton("Confirm");
 
