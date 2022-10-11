@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class CardUI {
+public class CardUI implements PositionListener{
     Image covered_defense_img = ImageIO.read(getClass().getClassLoader().getResourceAsStream("CardImages/Card Back Set.png")).getScaledInstance(146, 100, Image.SCALE_SMOOTH);
 
     public CardUI(Card card) throws IOException {
@@ -56,7 +56,7 @@ public class CardUI {
             //BufferedImage dest = new BufferedImage(146, 100, card.getImage().getType());
             card.setPreferredSize(new Dimension(146,100));
             pen.translate((146 - 100) / 2, (146 - 100) / 2);
-            pen.rotate(Math.PI / 2, 146 / 2, 100 / 2);
+            pen.rotate(Math.PI / 2, 100/2, 146/2);
             pen.drawImage(card.getImage(), null, null);
 
             card.repaint();
@@ -70,4 +70,8 @@ public class CardUI {
         }
     }
 
+    @Override
+    public void positionChanged() {
+        System.out.println("SONO QUI");
+    }
 }

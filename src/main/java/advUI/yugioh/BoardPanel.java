@@ -26,7 +26,7 @@ public class BoardPanel extends JPanel {
         pen.drawImage(image,0,0,image.getWidth(), image.getHeight(),null);
         //Playing player
         pen.drawImage(playerImage,30,30,80, 80,null);
-        pen.drawString(playingPlayerUsername, 30, 150);
+        pen.drawString(playingPlayerUsername + ", you are playing", 30, 150);
         pen.drawString(playingPlayerLifePoints, 30, 180);
         //Not playing player
         pen.drawImage(playerImage,1170,480,80, 80,null);

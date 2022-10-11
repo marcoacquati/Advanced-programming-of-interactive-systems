@@ -14,10 +14,12 @@ public class Card extends JComponent {
 
     public Card(String imagePath) throws IOException {
         this.model = new CardModel();
-        this.ui = new CardUI(this);
         this.getModel().setImagePath(imagePath);
         this.image = ImageIO.read(getClass().getClassLoader().getResourceAsStream(imagePath)).getScaledInstance(100, 146, Image.SCALE_SMOOTH);
+        this.setPosition(CardModel.Position.deck);
+        this.ui = new CardUI(this);
     }
+
     public CardModel getModel() {
         return model;
     }

@@ -3,6 +3,7 @@ package advUI.yugioh.match;
 import advUI.yugioh.BoardPanel;
 import advUI.yugioh.Card.Card;
 import advUI.yugioh.Card.CardModel;
+import advUI.yugioh.Card.PositionListener;
 import advUI.yugioh.Placeholder;
 import advUI.yugioh.Player.Player;
 import advUI.yugioh.State;
@@ -22,7 +23,7 @@ public class MatchController extends JPanel {
     private JPanel boardContainerPanel = new JPanel(new FlowLayout());
     private JPanel enemyContainerPanel = new JPanel(new FlowLayout());
     private Card selectedCard;
-
+    private ArrayList<PositionListener> listeners = new ArrayList<PositionListener>();
     private Card attackingCard;
     private final MatchModel matchModel;
     private final MatchUI ui;
@@ -90,6 +91,10 @@ public class MatchController extends JPanel {
                         setupAttackerListener(selectedCard);
                         //This method sets the listener used to select the card that is being attacked
                         setupAttackedListener(selectedCard);
+                        for (PositionListener listener : listeners) {
+                            listener.positionChanged();
+                            System.out.println("Sparo sto triggerino");
+                        }
                         boardContainerPanel.remove(placeholder);
                         selectedCard = null;
                         displayPlayingPlayer();
@@ -289,8 +294,10 @@ public class MatchController extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
-                if(matchModel.getState().equals(State.Attack) && card.getPosition().equals(CardModel.Position.attack)){
+                if(matchModel.getState().equals(State.Attack) && card.getPosition().equals(CardModel.Position.attack) && isCardInBoard(card)){
                     attackingCard = card;
+                    System.out.println("Attacking card: "+attackingCard.getName());
+                    System.out.println("Attacking card: "+attackingCard.getSize());
                     hilightEnemies();
                     repaint();
                     revalidate();
@@ -302,28 +309,54 @@ public class MatchController extends JPanel {
     private void setupAttackedListener(Card card){
         card.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseReleased(MouseEvent e) {
-                super.mouseReleased(e);
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
                 //TODO CARD ATTACKS
-                if(card.getBounds().contains(e.getX(), e.getY())){
-                    if(matchModel.getState().equals(State.Attack) && attackingCard != null && attackingCard.getPosition().equals(CardModel.Position.attack )){
-                        deHilightEnemies();
-                        if(card.getPosition().equals(CardModel.Position.attack)){
-                            System.out.print(attackingCard.getName() +  " is attacking " + card.getName());
-                            if(attackingCard.getAtk()>=card.getAtk()){
-                                matchModel.getNotPlayingPlayer().getBoard().remove(card);
-                                enemyContainerPanel.remove(card);
-                                matchModel.getNotPlayingPlayer().removeLifePoints(attackingCard.getAtk()-card.getAtk());
-                                attackingCard = null;
-                                repaint();
-                                revalidate();
-                                System.out.println(matchModel.getNotPlayingPlayer().getUsername() + " now has " + matchModel.getNotPlayingPlayer().getLifePoints() + " Life Points");
-                            }
+                if(matchModel.getState().equals(State.Attack) && attackingCard != null && attackingCard.getPosition().equals(CardModel.Position.attack) && isCardInEnemy(card)){
+                    deHilightEnemies();
+                    if(card.getPosition().equals(CardModel.Position.attack)){
+                        System.out.print(attackingCard.getName() +  " is attacking " + card.getName());
+                        if(attackingCard.getAtk()>=card.getAtk()){
+                            matchModel.getNotPlayingPlayer().getBoard().remove(card);
+                            enemyContainerPanel.remove(card);
+                            matchModel.getNotPlayingPlayer().removeLifePoints(attackingCard.getAtk()-card.getAtk());
+                            attackingCard = null;
+                            displayPlayingPlayer();
+                            System.out.println(matchModel.getNotPlayingPlayer().getUsername() + " now has " + matchModel.getNotPlayingPlayer().getLifePoints() + " Life Points");
                         }
+                    }else{
+                        System.out.print(attackingCard.getName() +  " is attacking " + card.getName());
+                        if(attackingCard.getAtk()>=card.getDef()){
+                            matchModel.getNotPlayingPlayer().getBoard().remove(card);
+                            enemyContainerPanel.remove(card);
+                            attackingCard = null;
+                            System.out.println(matchModel.getNotPlayingPlayer().getUsername() + " now has " + matchModel.getNotPlayingPlayer().getLifePoints() + " Life Points");
+                        }else{
+                            matchModel.getPlayingPlayer().getBoard().remove(attackingCard);
+                            boardContainerPanel.remove(attackingCard);
+                            attackingCard = null;
+                            matchModel.getPlayingPlayer().removeLifePoints(card.getDef()-attackingCard.getAtk());
+                            System.out.println(matchModel.getNotPlayingPlayer().getUsername() + " now has " + matchModel.getNotPlayingPlayer().getLifePoints() + " Life Points");
+                        }
+                        displayPlayingPlayer();
                     }
                 }
             }
         });
+    }
+
+    public boolean isCardInHand(Card card){
+        return this.matchModel.getPlayingPlayer().getHand().contains(card);
+    }
+    public boolean isCardInBoard(Card card){
+        return this.matchModel.getPlayingPlayer().getBoard().contains(card);
+    }
+    public boolean isCardInEnemy(Card card){
+        return this.matchModel.getNotPlayingPlayer().getBoard().contains(card);
+    }
+
+    public void addListener(PositionListener listener) {
+        listeners.add(listener);
     }
 
 }
