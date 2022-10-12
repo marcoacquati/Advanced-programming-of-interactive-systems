@@ -90,6 +90,14 @@ public class Card extends JComponent {
         model.setHighlighted(highlighted);
     }
 
+    public boolean isGlow() {
+        return model.isGlow();
+    }
+
+    public void setGlow(boolean glow) {
+        model.setGlow(glow);
+    }
+
     public boolean isCanAttack() {
         return model.isCanAttack();
     }

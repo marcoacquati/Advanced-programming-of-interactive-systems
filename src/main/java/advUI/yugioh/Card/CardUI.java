@@ -75,6 +75,12 @@ public class CardUI implements PositionListener{
             ((Graphics2D) pen).setStroke(new BasicStroke(10));
             pen.drawRect(0,0, 100, 146);
         }
+
+        if(card.isGlow()){
+            pen.setColor(new Color(245, 236, 39, 145));
+            ((Graphics2D) pen).setStroke(new BasicStroke(100));
+            pen.drawRect(0,0, 100, 146);
+        }
     }
 
     @Override

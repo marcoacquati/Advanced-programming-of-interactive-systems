@@ -192,7 +192,7 @@ public class MatchController extends JPanel {
                 @Override
                 public void mousePressed(MouseEvent e) {
                     super.mousePressed(e);
-                    if(matchModel.getState().equals(State.Position)){
+                    if(matchModel.getState().equals(State.Position) && isCardInHand(card)){
                         if(matchModel.getPlayer1().getBoard().size()<5) {
                             selectedCard = card;
                             hilightBoard();
@@ -203,7 +203,29 @@ public class MatchController extends JPanel {
                         }
                     }
                 }
+
+                @Override
+                public void mouseEntered(MouseEvent e){
+                    super.mouseEntered(e);
+                    if(matchModel.getState().equals(State.Position) && isCardInHand(card)) {
+                        card.setGlow(true);
+                        repaint();
+                        revalidate();
+                    }
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e){
+                    super.mouseExited(e);
+                    if(matchModel.getState().equals(State.Position) && isCardInHand(card)) {
+                        card.setGlow(false);
+                        repaint();
+                        revalidate();
+                    }
+                }
             });
+
+
         }
 
         //MANAGE CRD POSITIONING FOR PLAYER 2
@@ -231,11 +253,16 @@ public class MatchController extends JPanel {
                 super.mouseClicked(e);
                 if(matchModel.getState().equals(State.Draw)){
                     Card card = getMatchModel().getPlayingPlayer().drawCard();
+                    deck.setHighlighted(false);
+                    System.out.println("Il deck è: " + deck.isHighlighted());
+                    matchModel.setState(State.Position);
+                    repaint();
+                    revalidate();
                     card.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mousePressed(MouseEvent e) {
                             super.mousePressed(e);
-                            if(matchModel.getState().equals(State.Position)){
+                            if(matchModel.getState().equals(State.Position) && isCardInHand(card)){
                                 if(matchModel.getPlayer2().getBoard().size()<5) {
                                     selectedCard = card;
                                     hilightBoard();
@@ -244,13 +271,31 @@ public class MatchController extends JPanel {
                                 }
                             }
                         }
+                        @Override
+                        public void mouseEntered(MouseEvent e){
+                            super.mouseEntered(e);
+                            if(matchModel.getState().equals(State.Position) && isCardInHand(card)) {
+                                card.setGlow(true);
+                                repaint();
+                                revalidate();
+                            }
+                        }
+
+                        @Override
+                        public void mouseExited(MouseEvent e){
+                            super.mouseExited(e);
+                            if(matchModel.getState().equals(State.Position) && isCardInHand(card)) {
+                                card.setGlow(false);
+                                repaint();
+                                revalidate();
+                            }
+                        }
                     });
                     try {
                         displayPlayingPlayer();
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
-                    matchModel.setState(State.Position);
                 }else{
                     JOptionPane.showMessageDialog(null, "You can't draw more than once");
                 }

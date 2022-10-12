@@ -15,6 +15,7 @@ public class CardModel {
     private String name;
     private String imagePath;
     private boolean isHighlighted;
+    private boolean isGlow;
     private boolean canAttack;
 
     public int getAtk(){
@@ -57,6 +58,14 @@ public class CardModel {
 
     public void setHighlighted(boolean highlighted) {
         isHighlighted = highlighted;
+    }
+
+    public boolean isGlow() {
+        return isGlow;
+    }
+
+    public void setGlow(boolean glow) {
+        isGlow = glow;
     }
 
     public boolean isCanAttack() {
