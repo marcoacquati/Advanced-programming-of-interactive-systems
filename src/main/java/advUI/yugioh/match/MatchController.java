@@ -85,19 +85,7 @@ public class MatchController extends JPanel {
                     super.mouseReleased(e);
                     if (matchModel.getState().equals(State.Position) && selectedCard != null && selectedCard.getPosition().equals(CardModel.Position.hand)) {
                         matchModel.getPlayingPlayer().getHand().remove(selectedCard);
-                        String[] options = {"Attack", "Defense", "Covered defense"};
-                        int choice = JOptionPane.showOptionDialog(null, "Select how you want to position your card", "Card positon", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
-                        switch (choice) {
-                            case 0:
-                                selectedCard.setPosition(CardModel.Position.attack);
-                                break;
-                            case 1:
-                                selectedCard.setPosition(CardModel.Position.uncovered_defense);
-                                break;
-                            case 2:
-                                selectedCard.setPosition(CardModel.Position.covered_defense);
-                                break;
-                        }
+                        positionCard(selectedCard);
                         matchModel.getPlayingPlayer().getBoard().add(selectedCard);
                         //This method sets the listener used to select the card that is actively attacking an opponent card
                         setupAttackerListener(selectedCard);
@@ -138,6 +126,7 @@ public class MatchController extends JPanel {
     }
 
     public void setupButtons() {
+        /*
         JButton attackButton = new JButton("Attack");
         this.add(attackButton);
         attackButton.addMouseListener(new MouseAdapter() {
@@ -153,7 +142,7 @@ public class MatchController extends JPanel {
                 }
             }
         });
-
+*/
         JButton endButton = new JButton("End turn");
         this.add(endButton);
         endButton.addMouseListener(new MouseAdapter() {
@@ -362,23 +351,31 @@ public class MatchController extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
-                //TODO Manage card position change
-                if (card.isCanAttack()) {
-                    if (matchModel.getState().equals(State.Attack) && card.getPosition().equals(CardModel.Position.attack) && isCardInBoard(card)) {
-                        attackingCard = card;
-                        hilightEnemies();
+                String[] options = {"Attack", "Change Position"};
+                int choice = JOptionPane.showOptionDialog(null, "Which action do you want to perform?", "Card action", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+                if(choice==0){
+                    matchModel.setState(State.Attack);
+                    if (card.isCanAttack()) {
+                        if (matchModel.getState().equals(State.Attack) && card.getPosition().equals(CardModel.Position.attack) && isCardInBoard(card)) {
+                            attackingCard = card;
+                            hilightEnemies();
+                        }
+                        if (enemyContainerPanel.getComponents().length == 0) {
+                            JLabel directAttackLabel = new JLabel("Direct Attack");
+                            directAttackLabel.setFont(directAttackLabel.getFont().deriveFont(64.0f));
+                            directAttackLabel.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2));
+                            setupAttackedListener(directAttackLabel);
+                            enemyContainerPanel.add(directAttackLabel);
+                        }
+                        repaint();
+                        revalidate();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "You can attack at most once with a single monster");
                     }
-                    if (enemyContainerPanel.getComponents().length == 0) {
-                        JLabel directAttackLabel = new JLabel("Direct Attack");
-                        directAttackLabel.setFont(directAttackLabel.getFont().deriveFont(64.0f));
-                        directAttackLabel.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2));
-                        setupAttackedListener(directAttackLabel);
-                        enemyContainerPanel.add(directAttackLabel);
-                    }
+                }else if(choice == 1){
+                    positionCard(card);
                     repaint();
                     revalidate();
-                } else {
-                    JOptionPane.showMessageDialog(null, "You can attack at most once with a single monster");
                 }
             }
         });
@@ -492,9 +489,20 @@ public class MatchController extends JPanel {
         }
     }
 
-    public void endMatch() throws IOException {
-
-
+    public void positionCard(Card card){
+        String[] options = {"Attack", "Defense", "Covered defense"};
+        int choice = JOptionPane.showOptionDialog(null, "Select how you want to position your card", "Card positon", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+        switch (choice) {
+            case 0:
+                card.setPosition(CardModel.Position.attack);
+                break;
+            case 1:
+                card.setPosition(CardModel.Position.uncovered_defense);
+                break;
+            case 2:
+                card.setPosition(CardModel.Position.covered_defense);
+                break;
+        }
     }
 
 
