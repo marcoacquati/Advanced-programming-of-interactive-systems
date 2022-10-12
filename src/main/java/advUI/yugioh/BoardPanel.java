@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class BoardPanel extends JPanel {
     BufferedImage image;
-    BufferedImage playerImage =  ImageIO.read(getClass().getClassLoader().getResourceAsStream("Player Image.png"));
+    BufferedImage playerImage = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Player Image.png"));
     private String playingPlayerUsername;
     private String playingPlayerLifePoints;
     private String notPlayingPlayerUsername;
@@ -21,15 +21,15 @@ public class BoardPanel extends JPanel {
     }
 
     @Override
-    public void paintComponent(Graphics pen){
-        pen = (Graphics2D)pen;
-        pen.drawImage(image,0,0,image.getWidth(), image.getHeight(),null);
+    public void paintComponent(Graphics pen) {
+        pen = (Graphics2D) pen;
+        pen.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
         //Playing player
-        pen.drawImage(playerImage,30,30,80, 80,null);
-        pen.drawString(playingPlayerUsername + ", you are playing", 30, 150);
-        pen.drawString(playingPlayerLifePoints, 30, 180);
+        pen.drawImage(playerImage, 30, 80, 80, 80, null);
+        pen.drawString(playingPlayerUsername + ", you are playing", 30, 200);
+        pen.drawString(playingPlayerLifePoints, 30, 230);
         //Not playing player
-        pen.drawImage(playerImage,30,480,80, 80,null);
+        pen.drawImage(playerImage, 30, 480, 80, 80, null);
         pen.drawString(notPlayingPlayerUsername, 30, 600);
         pen.drawString(notPlayingPlayerLifePoints, 30, 630);
     }

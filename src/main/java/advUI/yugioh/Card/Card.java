@@ -37,37 +37,43 @@ public class Card extends JComponent {
         this.ui = ui;
     }
 
-    public int getAtk(){
+    public int getAtk() {
         return this.getModel().getAtk();
     }
-    public void setAtk(int atk){
+
+    public void setAtk(int atk) {
         this.getModel().setAtk(atk);
     }
-    public int getDef(){
+
+    public int getDef() {
         return this.getModel().getDef();
     }
-    public void setDef(int def){
+
+    public void setDef(int def) {
         this.getModel().setDef(def);
     }
 
-    public CardModel.Position getPosition(){
+    public CardModel.Position getPosition() {
         return this.getModel().getPosition();
     }
-    public void setPosition(CardModel.Position position){
+
+    public void setPosition(CardModel.Position position) {
         this.getModel().setPosition(position);
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.getModel().setName(name);
     }
-    public String getName(){
+
+    public String getName() {
         return this.getModel().getName();
     }
 
-    public String getImagePath(){
+    public String getImagePath() {
         return this.getModel().getImagePath();
     }
-    public void setImagePath(String path){
+
+    public void setImagePath(String path) {
         this.getModel().setImagePath(path);
     }
 
@@ -78,6 +84,7 @@ public class Card extends JComponent {
     public void setImage(String imagePath) throws IOException {
         this.image = ImageIO.read(getClass().getClassLoader().getResourceAsStream(imagePath));
     }
+
     public void setImage(Image image) throws IOException {
         this.image = image;
     }
@@ -110,7 +117,7 @@ public class Card extends JComponent {
     public void paintComponent(Graphics pen) {
         super.paintComponent(pen);
         try {
-            this.ui.paint((Graphics2D)pen, this);
+            this.ui.paint((Graphics2D) pen, this);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -118,11 +125,17 @@ public class Card extends JComponent {
 
     @Override
     public Dimension getPreferredSize() {
+        if(this.model.getPosition().equals(CardModel.Position.covered_defense) || this.model.getPosition().equals(CardModel.Position.uncovered_defense)){
+            return new Dimension(146, 100);
+        }
         return new Dimension(this.image.getWidth(null), this.image.getHeight(null));
     }
 
     @Override
     public Dimension getSize() {
+        if(this.model.getPosition().equals(CardModel.Position.covered_defense) || this.model.getPosition().equals(CardModel.Position.uncovered_defense)){
+            return new Dimension(146, 100);
+        }
         return new Dimension(this.image.getWidth(null), this.image.getHeight(null));
     }
 }
