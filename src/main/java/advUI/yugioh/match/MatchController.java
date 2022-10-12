@@ -351,9 +351,14 @@ public class MatchController extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
-                String[] options = {"Attack", "Change Position"};
+                String[] options = {};
+                if(card.getPosition().equals(CardModel.Position.covered_defense) || card.getPosition().equals(CardModel.Position.uncovered_defense)){
+                    options = new String[]{"Change Position"};
+                }else{
+                    options = new String[]{"Change Position", "Attack"};
+                }
                 int choice = JOptionPane.showOptionDialog(null, "Which action do you want to perform?", "Card action", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
-                if(choice==0){
+                if(choice==1){
                     matchModel.setState(State.Attack);
                     if (card.isCanAttack()) {
                         if (matchModel.getState().equals(State.Attack) && card.getPosition().equals(CardModel.Position.attack) && isCardInBoard(card)) {
@@ -372,7 +377,7 @@ public class MatchController extends JPanel {
                     } else {
                         JOptionPane.showMessageDialog(null, "You can attack at most once with a single monster");
                     }
-                }else if(choice == 1){
+                }else if(choice == 0){
                     positionCard(card);
                     repaint();
                     revalidate();
