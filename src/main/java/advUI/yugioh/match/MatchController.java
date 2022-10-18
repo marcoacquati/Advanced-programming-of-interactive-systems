@@ -229,6 +229,26 @@ public class MatchController extends JPanel {
                         }
                     }
                 }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    super.mouseEntered(e);
+                    if (matchModel.getState().equals(State.Position) && isCardInHand(card)) {
+                        card.setGlow(true);
+                        repaint();
+                        revalidate();
+                    }
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    super.mouseExited(e);
+                    if (matchModel.getState().equals(State.Position) && isCardInHand(card)) {
+                        card.setGlow(false);
+                        repaint();
+                        revalidate();
+                    }
+                }
             });
         }
         //DECK CLICK LISTENER
@@ -351,37 +371,40 @@ public class MatchController extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
-                String[] options = {};
-                if(card.getPosition().equals(CardModel.Position.covered_defense) || card.getPosition().equals(CardModel.Position.uncovered_defense)){
-                    options = new String[]{"Change Position"};
-                }else{
-                    options = new String[]{"Change Position", "Attack"};
-                }
-                int choice = JOptionPane.showOptionDialog(null, "Which action do you want to perform?", "Card action", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
-                if(choice==1){
-                    matchModel.setState(State.Attack);
-                    if (card.isCanAttack()) {
-                        if (matchModel.getState().equals(State.Attack) && card.getPosition().equals(CardModel.Position.attack) && isCardInBoard(card)) {
-                            attackingCard = card;
-                            hilightEnemies();
+                if(isCardInBoard(card)){
+                    String[] options = {};
+                    if((card.getPosition().equals(CardModel.Position.covered_defense) || card.getPosition().equals(CardModel.Position.uncovered_defense))){
+                        options = new String[]{"Change Position"};
+                    }else{
+                        options = new String[]{"Change Position", "Attack"};
+                    }
+                    int choice = JOptionPane.showOptionDialog(null, "Which action do you want to perform?", "Card action", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+                    if(choice==1){
+                        matchModel.setState(State.Attack);
+                        if (card.isCanAttack()) {
+                            if (matchModel.getState().equals(State.Attack) && card.getPosition().equals(CardModel.Position.attack) && isCardInBoard(card)) {
+                                attackingCard = card;
+                                hilightEnemies();
+                            }
+                            if (enemyContainerPanel.getComponents().length == 0) {
+                                JLabel directAttackLabel = new JLabel("Direct Attack");
+                                directAttackLabel.setFont(directAttackLabel.getFont().deriveFont(64.0f));
+                                directAttackLabel.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2));
+                                setupAttackedListener(directAttackLabel);
+                                enemyContainerPanel.add(directAttackLabel);
+                            }
+                            repaint();
+                            revalidate();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "You can attack at most once with a single monster");
                         }
-                        if (enemyContainerPanel.getComponents().length == 0) {
-                            JLabel directAttackLabel = new JLabel("Direct Attack");
-                            directAttackLabel.setFont(directAttackLabel.getFont().deriveFont(64.0f));
-                            directAttackLabel.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2));
-                            setupAttackedListener(directAttackLabel);
-                            enemyContainerPanel.add(directAttackLabel);
-                        }
+                    }else if(choice == 0){
+                        positionCard(card);
                         repaint();
                         revalidate();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "You can attack at most once with a single monster");
                     }
-                }else if(choice == 0){
-                    positionCard(card);
-                    repaint();
-                    revalidate();
                 }
+
             }
         });
     }
@@ -401,11 +424,17 @@ public class MatchController extends JPanel {
                                 matchModel.getNotPlayingPlayer().getBoard().remove(card);
                                 enemyContainerPanel.remove(card);
                                 matchModel.getNotPlayingPlayer().removeLifePoints(attackingCard.getAtk() - card.getAtk());
+                                //boardPanel.setDamage(attackingCard.getAtk() - card.getAtk());
+                                //boardPanel.setDamagedPlayer(matchModel.getNotPlayingPlayer());
                                 try {
                                     displayPlayingPlayer();
                                 } catch (IOException ex) {
                                     throw new RuntimeException(ex);
                                 }
+                            }else{
+                                matchModel.getPlayingPlayer().getBoard().remove(attackingCard);
+                                boardContainerPanel.remove(attackingCard);
+                                matchModel.getPlayingPlayer().removeLifePoints(card.getAtk() - attackingCard.getAtk());
                             }
                         } else {
                             if (attackingCard.getAtk() >= card.getDef()) {
@@ -415,8 +444,9 @@ public class MatchController extends JPanel {
                                 matchModel.getPlayingPlayer().getBoard().remove(attackingCard);
                                 boardContainerPanel.remove(attackingCard);
                                 matchModel.getPlayingPlayer().removeLifePoints(card.getDef() - attackingCard.getAtk());
+                                //boardPanel.setDamage(card.getDef() - attackingCard.getAtk());
+                                //boardPanel.setDamagedPlayer(matchModel.getPlayingPlayer());
                             }
-                            JOptionPane.showMessageDialog(null, attackingCard.getImage() + " is attacking " + card.getImage());
                         }
                         attackingCard.setCanAttack(false);
                         attackingCard = null;
@@ -431,6 +461,8 @@ public class MatchController extends JPanel {
                             throw new RuntimeException(ex);
                         }
                     }
+                    repaint();
+                    revalidate();
                 }
             });
         }
@@ -443,6 +475,8 @@ public class MatchController extends JPanel {
                     if (matchModel.getState().equals(State.Attack) && attackingCard != null && attackingCard.getPosition().equals(CardModel.Position.attack)) {
                         deHilightEnemies();
                         matchModel.getNotPlayingPlayer().removeLifePoints(attackingCard.getAtk());
+                        //boardPanel.setDamage(attackingCard.getAtk());
+                        //boardPanel.setDamagedPlayer(matchModel.getPlayingPlayer());
                         attackingCard.setCanAttack(false);
                         attackingCard = null;
                         try {
@@ -456,6 +490,8 @@ public class MatchController extends JPanel {
                             throw new RuntimeException(ex);
                         }
                     }
+                    repaint();
+                    revalidate();
                 }
             });
         }

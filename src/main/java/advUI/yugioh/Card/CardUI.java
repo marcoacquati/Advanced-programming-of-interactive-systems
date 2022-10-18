@@ -1,6 +1,7 @@
 package advUI.yugioh.Card;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import java.awt.*;
@@ -20,32 +21,27 @@ public class CardUI implements PositionListener {
         /*
         card.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-                try {
-                    card.setImage(card.getImagePath());
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if(e.getButton() == MouseEvent.BUTTON3){
+                    ImageIcon icon = null;
+                    try {
+                        icon = new ImageIcon(ImageIO.read(getClass().getClassLoader().getResourceAsStream("CardImages/" + card.getName() + ".png")));
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "",
+                            "Card insight", JOptionPane.INFORMATION_MESSAGE,
+                            icon);
                 }
-                card.setSize(new Dimension(300, 437));
-                card.repaint();
-            }
 
-            @Override
-            public void mouseExited(MouseEvent e){
-                super.mouseExited(e);
-                try {
-                    card.setImage(card.getImage().getScaledInstance(100, 146, Image.SCALE_SMOOTH));
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-                card.setSize(new Dimension(100, 146));
-                card.repaint();
             }
         });
 
-
          */
+
     }
 
     public void paint(Graphics2D pen, Card card) throws IOException {
