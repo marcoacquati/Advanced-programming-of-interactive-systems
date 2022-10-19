@@ -1,6 +1,7 @@
-# Digital version of Yu-Gi-Oh! card game
-This is the final project for the course Advanced Programming of Interactive Systems at Université Paris-Saclay.
-In this project, we implemented a digital version of the famous card game Yu-Gi-Oh!
+# Monsters and Battles
+This is the final project for the course Advanced Programming of Interactive Systems at Université Paris-Saclay. 
+
+In this project, we implemented a digital card game "Monsters and Battles" that is inspired by the well-known card game called yugioh!
 
 ## Description on the project
 In this version of the game, each player starts the match with 8000 life points, 7 cards in their hands and with a deck of 40 cards. 
@@ -23,10 +24,8 @@ When either player's life points become 0, the game ends.
 
 ## Implemented functionalities
 * The graphical user interface of the game
-* Interactivity: dynamically showing the details of the card when mouse hovering on the card; 
-the feature that enables user to change the position of a card already placed on the board;
-user controlling the phase of the game; choose the card
-
+* Interactivity: choose the card and put it in the field; the feature that enables user to change the position of a card already placed on the board;
+user controlling the phase of the game; Notifications to help the user proceed in the game, especially when user gets stuck or makes inappropriate move
 * The backend logical according to the rules of the game
 
 ## Run the project
