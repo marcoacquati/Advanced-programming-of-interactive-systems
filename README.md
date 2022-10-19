@@ -1,10 +1,10 @@
 # Monsters and Battles
 This is the final project for the course Advanced Programming of Interactive Systems at Université Paris-Saclay. 
 
-In this project, we implemented a digital card game "Monsters and Battles" that is inspired by the well-known card game called yugioh!
+In this project, we implemented a digital card game "Monsters and Battles" which is inspired by the well-known card game called yugioh!
 
-## Description on the project
-In this version of the game, each player starts the match with 8000 life points, 7 cards in their hands and with a deck of 40 cards. 
+## Description of the project
+In this game, each player starts the match with 8000 life points, 7 cards in their hands and with a deck of 40 cards. 
 And each player has a field with 5 monster zones in front of them.
 They can position the card in the monster zone during the position phase.
 Each player's turn contains four phases that take place in the following order:
@@ -25,7 +25,7 @@ When either player's life points become 0, the game ends.
 ## Implemented functionalities
 * The graphical user interface of the game
 * Interactivity: choose the card and put it in the field; the feature that enables user to change the position of a card already placed on the board;
-user controlling the phase of the game; Notifications to help the user proceed in the game, especially when user gets stuck or makes inappropriate move
+user controlling the phase of the game; Notifications to help users proceed in the game, especially when they get stuck or make inappropriate move
 * The backend logical according to the rules of the game
 
 ## Run the project
