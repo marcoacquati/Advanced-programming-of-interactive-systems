@@ -22,9 +22,11 @@ The turn player can choose to not enter the battle phase and instead go to the E
 When either player's life points become 0, the game ends.
 
 ## Implemented functionalities
-* GUI
-* Interactivity: dynamically showing the details of the card when mouse hovering on the card
-//to be added
+* The graphical user interface of the game
+* Interactivity: dynamically showing the details of the card when mouse hovering on the card; 
+the feature that enables user to change the position of a card already placed on the board;
+user controlling the phase of the game; choose the card
+
 * The backend logical according to the rules of the game
 
 ## Run the project
@@ -32,6 +34,6 @@ Oracle OpenJDK 19 was used in this project.
 
 IntelliJ IDEA was used as the IDE.
 
-To run this code, you need to choose the suitable version of SDK (preferably Oracle OpenJDK 19).
+For the code to run properly, you need to choose the suitable version of SDK (preferably Oracle OpenJDK 19).
 
-Then in the src folder ......
+To run this project, go to the src/main/java/advUI.yugioh folder, then run Main.main()
