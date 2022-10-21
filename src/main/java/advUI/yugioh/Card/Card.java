@@ -123,6 +123,7 @@ public class Card extends JComponent {
         }
     }
 
+    //This method returns the size of the card depending on its position
     @Override
     public Dimension getPreferredSize() {
         if(this.model.getPosition().equals(CardModel.Position.covered_defense) || this.model.getPosition().equals(CardModel.Position.uncovered_defense)){

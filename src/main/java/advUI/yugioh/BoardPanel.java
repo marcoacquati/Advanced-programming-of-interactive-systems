@@ -105,7 +105,6 @@ public class BoardPanel extends JPanel {
             TimeUnit.SECONDS.sleep(1);
             repaint();
             revalidate();
-            System.out.println("sono nell'animazione");
         }
         this.damage = 0;
         player = null;

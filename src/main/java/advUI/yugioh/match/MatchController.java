@@ -3,10 +3,8 @@ package advUI.yugioh.match;
 import advUI.yugioh.BoardPanel;
 import advUI.yugioh.Card.Card;
 import advUI.yugioh.Card.CardModel;
-import advUI.yugioh.Card.PositionListener;
 import advUI.yugioh.EndMatchPanel;
 import advUI.yugioh.Placeholder;
-import advUI.yugioh.Player.Player;
 import advUI.yugioh.State;
 import org.json.simple.parser.ParseException;
 
@@ -26,13 +24,10 @@ public class MatchController extends JPanel {
     private Card selectedCard;
 
     Card deck = new Card("CardImages/Card Back.png");
-    private ArrayList<PositionListener> listeners = new ArrayList<PositionListener>();
     private Card attackingCard;
     private final MatchModel matchModel;
-    private final MatchUI ui;
 
     public MatchController() throws IOException, ParseException {
-        this.ui = new MatchUI(this);
         this.boardPanel = new BoardPanel(ImageIO.read(getClass().getClassLoader().getResourceAsStream("BoardImage.png")));
         this.matchModel = new MatchModel(boardPanel);
 
@@ -45,12 +40,7 @@ public class MatchController extends JPanel {
         displayPlayingPlayer();
     }
 
-
-    @Override
-    public void paintComponent(Graphics pen) {
-        this.ui.paint(this);
-    }
-
+    //This method displays the objects on the board depending on the player who is currently playing
     public void displayPlayingPlayer() throws IOException {
         boardContainerPanel.removeAll();
         enemyContainerPanel.removeAll();
@@ -91,9 +81,6 @@ public class MatchController extends JPanel {
                         setupAttackerListener(selectedCard);
                         //This method sets the listener used to select the card that is being attacked
                         setupAttackedListener(selectedCard);
-                        for (PositionListener listener : listeners) {
-                            listener.positionChanged();
-                        }
                         boardContainerPanel.remove(placeholder);
                         selectedCard = null;
                         try {
@@ -126,23 +113,6 @@ public class MatchController extends JPanel {
     }
 
     public void setupButtons() {
-        /*
-        JButton attackButton = new JButton("Attack");
-        this.add(attackButton);
-        attackButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                if (matchModel.getState().equals(State.Position) && !matchModel.getPlayingPlayer().getBoard().isEmpty()) {
-                    matchModel.setState(State.Attack);
-                } else if (matchModel.getState().equals(State.Draw)) {
-                    JOptionPane.showMessageDialog(null, "You must draw before attacking");
-                } else if (matchModel.getPlayingPlayer().getBoard().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "You must have at least one monster on your board to attack");
-                }
-            }
-        });
-*/
         JButton endButton = new JButton("End turn");
         this.add(endButton);
         endButton.addMouseListener(new MouseAdapter() {
@@ -213,8 +183,7 @@ public class MatchController extends JPanel {
 
         }
 
-        //MANAGE CRD POSITIONING FOR PLAYER 2
-        //TODO REFACTOR WITH FUNCTION
+        //MANAGE CARD POSITIONING FOR PLAYER 2
         for (Card card : this.matchModel.getPlayer2().getHand()) {
             card.addMouseListener(new MouseAdapter() {
                 @Override
@@ -330,10 +299,6 @@ public class MatchController extends JPanel {
 
     public MatchModel getMatchModel() {
         return matchModel;
-    }
-
-    public MatchUI getUi() {
-        return ui;
     }
 
     public void hilightBoard() {
@@ -510,9 +475,6 @@ public class MatchController extends JPanel {
         return this.matchModel.getNotPlayingPlayer().getBoard().contains(card);
     }
 
-    public void addListener(PositionListener listener) {
-        listeners.add(listener);
-    }
 
     public void checkLifePoints() throws IOException {
         if (matchModel.getPlayer1().getLifePoints() <= 0) {

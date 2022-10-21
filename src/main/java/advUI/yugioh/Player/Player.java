@@ -9,6 +9,7 @@ import org.json.simple.parser.ParseException;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -16,7 +17,7 @@ public class Player {
     private String username;
     private int lifePoints;
     JSONParser parser = new JSONParser();
-    Object obj = parser.parse(new FileReader("src/main/resources/Monsters.json"));
+    Object obj = parser.parse(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("Monsters.json")));
     JSONArray cardArray = (JSONArray) obj;
 
 

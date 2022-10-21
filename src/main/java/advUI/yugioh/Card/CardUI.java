@@ -14,33 +14,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
-public class CardUI implements PositionListener {
+public class CardUI {
     Image covered_defense_img = ImageIO.read(getClass().getClassLoader().getResourceAsStream("CardImages/Card Back Set.png")).getScaledInstance(146, 100, Image.SCALE_SMOOTH);
 
     public CardUI(Card card) throws IOException {
-        /*
-        card.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                if(e.getButton() == MouseEvent.BUTTON3){
-                    ImageIcon icon = null;
-                    try {
-                        icon = new ImageIcon(ImageIO.read(getClass().getClassLoader().getResourceAsStream("CardImages/" + card.getName() + ".png")));
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    JOptionPane.showMessageDialog(
-                            null,
-                            "",
-                            "Card insight", JOptionPane.INFORMATION_MESSAGE,
-                            icon);
-                }
-
-            }
-        });
-
-         */
 
     }
 
@@ -51,9 +28,6 @@ public class CardUI implements PositionListener {
             card.repaint();
             card.revalidate();
         } else if (card.getPosition().equals(CardModel.Position.covered_defense)) {
-            card.setMinimumSize(new Dimension(146, 100));
-            card.setSize(new Dimension(146, 100));
-            card.setPreferredSize(new Dimension(146, 100));
             pen.drawImage(covered_defense_img, null, null);
             card.repaint();
             card.revalidate();
@@ -80,8 +54,4 @@ public class CardUI implements PositionListener {
         }
     }
 
-    @Override
-    public void positionChanged() {
-
-    }
 }
